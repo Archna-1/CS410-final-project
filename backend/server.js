@@ -5,23 +5,23 @@ const ejs = require('ejs');
 const {spawn} = require('child_process')
 
 const app = express();
-const port = 5001; // Set your desired port
+const port = 3000; // Set your desired port
 
 app.use(cors()); // Enable CORS middleware
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 
-app.get("/", (req, res) => {
-  res.render("index");
+app.get('/', (req, res) => {
+  res.render('index')
 });
 
-app.post("/get-remote-text", async (req, res) => {
+app.post('/get-remote-text', async (req, res) => {
   const url = req.body.url;
 
   if (!url) {
-    return res.status(400).json({ error: "URL parameter is missing" });
+    return res.status(400).json({ error: 'URL parameter is missing' });
   }
 
   try {
@@ -47,13 +47,11 @@ app.post("/get-remote-text", async (req, res) => {
       //res.json({ text });
       //res.render(index);
     } else {
-      res
-        .status(response.status)
-        .json({ error: `HTTP error! Status: ${response.status}` });
+      res.status(response.status).json({ error: `HTTP error! Status: ${response.status}` });
     }
   } catch (error) {
-    console.error("Error fetching data:", error.message);
-    res.status(500).json({ error: "Internal server error" });
+    console.error('Error fetching data:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
