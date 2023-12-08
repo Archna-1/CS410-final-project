@@ -1,9 +1,0 @@
-index = "news-articles-idx"
-corpus = "line.toml"
-stop-words = "stopwords.txt"
-dataset = "output"
-prefix = "."
-[[analyzers]]
-	filter = "default-unigram-chain"
-	ngram = 1
-	method = "ngram-word"
