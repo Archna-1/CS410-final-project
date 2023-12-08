@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const ejs = require('ejs');
+const {spawn} = require('child_process')
 
 const app = express();
 const port = 3000; // Set your desired port
@@ -28,8 +29,23 @@ app.post('/get-remote-text', async (req, res) => {
 
     if (response.status === 200) {
       const text = response.data;
-      res.json({ text });
-      res.render(index);
+
+      const pyScript = spawn('python', ['summary.py']);
+      pyScript.stdin.write(text);
+      pyScript.stdin.end();
+
+      pyScript.stdout.on('data', (data) => {
+        const summary = data.toString();
+        res.send(summary);
+      });
+
+      pyScript.stderr.on('data', (data) => {
+          console.error(`Error: ${data}`);
+          res.status(500).send('Error summarizing article');
+      });
+
+      //res.json({ text });
+      //res.render(index);
     } else {
       res.status(response.status).json({ error: `HTTP error! Status: ${response.status}` });
     }
