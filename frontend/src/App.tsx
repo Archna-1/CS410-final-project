@@ -1,15 +1,36 @@
 import {
   Box,
   Button,
-  Flex,
   Input,
-  Text,
   ChakraProvider,
   Heading,
+  FormControl,
 } from "@chakra-ui/react";
 
+import axios from "axios";
+import { useState } from "react";
+
 function App() {
-  let res = "summary"; // add api call here
+  const [summary, setSummary] = useState<String>();
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const input = (document.getElementById("input") as HTMLInputElement)?.value;
+    let res = await axios.post(
+      "http://localhost:5001/get-remote-text",
+      {
+        url: input,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    setSummary(res.data.text);
+  };
 
   return (
     <ChakraProvider>
@@ -27,21 +48,27 @@ function App() {
         <Heading mb="5px" fontSize="2.2em">
           CS410 Article Summarizer
         </Heading>
-        <Input mb="5px" placeholder="Enter URL here"></Input>
-        <Button mb="10px">Get Summary</Button>
-        <Heading mb="5px" fontSize="2em">
-          Summary
-        </Heading>
-        {res && (
-          <Box
-            mb="5px"
-            overflowY="auto"
-            h="120px"
-            border="2px lightgray solid"
-            borderRadius="5px"
-          >
-            {res}
-          </Box>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <Input id="input" mb="5px" placeholder="Enter URL here"></Input>
+          <Button mb="10px" type="submit">
+            Get Summary
+          </Button>
+        </form>
+        {summary && (
+          <>
+            <Heading mb="5px" fontSize="2em">
+              Summary
+            </Heading>
+            <Box
+              mb="5px"
+              overflowY="auto"
+              h="120px"
+              border="2px lightgray solid"
+              borderRadius="5px"
+            >
+              {summary}
+            </Box>
+          </>
         )}
       </Box>
     </ChakraProvider>
