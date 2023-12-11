@@ -1,7 +1,7 @@
 import sys
 import re
 from bs4 import BeautifulSoup
-import HTMLParser
+from html.parser import HTMLParser
 import metapy
 import gensim
 from gensim.summarization.summarizer import summarize
@@ -57,13 +57,13 @@ def summarize_article(article_text):
     create_config_toml()
 
     # Create a Tokenizer
-    tok = metapy.analyzers.ICUTokenizer()
+    # tok = metapy.analyzers.ICUTokenizer()
 
-    # Create an Inverted Index
-    idx = metapy.index.make_inverted_index('config.toml')
+    # # Create an Inverted Index
+    # idx = metapy.index.make_inverted_index('config.toml')
 
-    # Create a Ranker using the BM25 ranking function
-    ranker = metapy.index.OkapiBM25()
+    # # Create a Ranker using the BM25 ranking function
+    # ranker = metapy.index.OkapiBM25()
 
     # # Create a Summarizer
     # summarizer = metapy.summarization.Summarizer(tok, ranker, idx)
@@ -88,7 +88,7 @@ def summarize_article(article_text):
     # # Join the top sentences to create the summary
     # summary = ' '.join(top_sentences_text)
 
-    summary = summarize(article_text, ratio=0.2)
+    summary = summarize(article_text, ratio=0.05)
 
     return summary
 
@@ -97,4 +97,4 @@ cleaned_text = clean_text(article_text)
 # print(cleaned_text)
 # summary = summarize(cleaned_text, ratio=0.5)
 summary = summarize_article(cleaned_text)
-print("Summary:", summary)
+print(summary)

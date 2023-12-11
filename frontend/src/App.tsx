@@ -29,7 +29,7 @@ function App() {
       }
     );
 
-    setSummary(res.data.text);
+    setSummary(res.data);
   };
 
   return (

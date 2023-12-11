@@ -31,11 +31,14 @@ app.post("/get-remote-text", async (req, res) => {
       const text = response.data;
 
       const pyScript = spawn("python3", ["summary.py"]);
+
       pyScript.stdin.write(text);
+
       pyScript.stdin.end();
 
       pyScript.stdout.on("data", (data) => {
         const summary = data.toString();
+
         res.send(summary);
       });
 
