@@ -18,7 +18,7 @@ function App() {
 
     const input = (document.getElementById("input") as HTMLInputElement)?.value;
     let res = await axios.post(
-      "http://localhost:5001/get-remote-text",
+      "http://localhost:3000/get-remote-text",
       {
         url: input,
       },
