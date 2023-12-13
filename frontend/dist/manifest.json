@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "manifest_version": 3,
-  "name": "React Chrome Extension",
+  "name": "News Article Summarizer",
   "action": {
     "default_popup": "js/index.html",
     "default_title": "React Chrome Extension"
