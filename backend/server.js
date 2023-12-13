@@ -30,7 +30,7 @@ app.post("/get-remote-text", async (req, res) => {
     if (response.status === 200) {
       const text = response.data;
 
-      const pyScript = spawn("python3", ["summary.py"]);
+      const pyScript = spawn("python", ["summary.py"]);
 
       pyScript.stdin.write(text);
 
